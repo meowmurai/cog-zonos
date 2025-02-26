@@ -184,4 +184,4 @@ class Predictor(BasePredictor):
         torchaudio.save(os.path.join(OUTPUT_DIR, "output.wav"), wav_out[0], sr_out)
         """Run a single prediction on the model"""
 
-        return os.path.join(OUTPUT_DIR, "output.wav")
+        return Path(os.path.join(OUTPUT_DIR, "output.wav"))
