@@ -189,7 +189,7 @@ class Predictor(BasePredictor):
         if wav_out.dim() == 2 and wav_out.size(0) > 1:
             wav_out = wav_out[0:1, :]
 
-        torchaudio.save("output.wav", wav_out, sr_out)
+        torchaudio.save("output.wav", wav_out.squeeze(), sr_out)
         """Run a single prediction on the model"""
 
         return os.path("output.wav")
