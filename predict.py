@@ -184,12 +184,12 @@ class Predictor(BasePredictor):
             batch_size=1,
         )
 
-        wav_out = model.autoencoder.decode(codes).cpu().detach()
+        wav_out = model.autoencoder.decode(codes).cpu()
         sr_out = model.autoencoder.sampling_rate
-        if wav_out.dim() == 2 and wav_out.size(0) > 1:
-            wav_out = wav_out[0:1, :]
+        # if wav_out.dim() == 2 and wav_out.size(0) > 1:
+        #     wav_out = wav_out[0:1, :]
 
-        torchaudio.save("output.wav", wav_out.squeeze(), sr_out)
+        torchaudio.save("output.wav", wav_out[0], sr_out)
         """Run a single prediction on the model"""
 
         return os.path("output.wav")
