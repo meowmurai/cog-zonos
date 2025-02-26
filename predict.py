@@ -110,8 +110,7 @@ class Predictor(BasePredictor):
         seed: int = Input(description="Seed", default=None),
         # advanced parameters
         unconditional_keys: list[str] = Input(
-            description="Unconditional Keys",
-            choices=supported_unconditional_keys,
+            description=f"Unconditional Keys, supported values: {supported_unconditional_keys}",
             default=["emotion"],
         ),
         e1: float = Input(description="Happiness", ge=0.0, le=1.0, default=1.0),
