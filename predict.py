@@ -2,7 +2,6 @@ import random
 from cog import BasePredictor, Path, Input
 import torch
 import torchaudio
-import gradio as gr
 import os
 import shutil
 
@@ -68,8 +67,6 @@ class Predictor(BasePredictor):
 
     def setup(self):
         """Load the model into memory to make running multiple predictions efficient"""
-        self.net = torch.load("weights.pth")
-        self.get_supported_models()
 
     def predict(
         self,
