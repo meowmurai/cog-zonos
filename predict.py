@@ -67,6 +67,7 @@ class Predictor(BasePredictor):
 
     def setup(self):
         """Load the model into memory to make running multiple predictions efficient"""
+        load_model_if_needed("Zyphra/Zonos-v0.1-transformer")
 
     def predict(
         self,
