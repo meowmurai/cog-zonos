@@ -10,7 +10,6 @@ from zonos.conditioning import make_cond_dict, supported_language_codes
 from zonos.utils import DEFAULT_DEVICE as device
 
 OUTPUT_DIR = "/tmp/outputs"
-INPUT_DIR = "/tmp/inputs"
 CURRENT_MODEL_TYPE = None
 CURRENT_MODEL = None
 
@@ -53,17 +52,6 @@ class Predictor(BasePredictor):
                 "| The current ZonosBackbone does not support the hybrid architecture, meaning only the transformer model will be available in the model selector.\n"
                 "| This probably means the mamba-ssm library has not been installed."
             )
-
-    def filename_with_extension(self, input_file, prefix):
-        extension = os.path.splitext(input_file.name)[1]
-        return f"{prefix}{extension}"
-
-    def handle_input_file(
-        self,
-        input_file: Path,
-        filename: str = "image.png",
-    ):
-        shutil.copy(input_file, os.path.join(INPUT_DIR, filename))
 
     def setup(self):
         """Load the model into memory to make running multiple predictions efficient"""
@@ -123,6 +111,9 @@ class Predictor(BasePredictor):
         e7: float = Input(description="Other", ge=0.0, le=1.0, default=0.1),
         e8: float = Input(description="Neutral", ge=0.0, le=1.0, default=0.2),
     ) -> Path:
+        if os.path.exists(OUTPUT_DIR):
+            shutil.rmtree(OUTPUT_DIR)
+        os.makedirs(OUTPUT_DIR)
         # seed generation
         if seed is None or seed < 0:
             seed = random.randint(0, 2**31 - 1)
@@ -190,7 +181,7 @@ class Predictor(BasePredictor):
         # if wav_out.dim() == 2 and wav_out.size(0) > 1:
         #     wav_out = wav_out[0:1, :]
 
-        torchaudio.save("output.wav", wav_out[0], sr_out)
+        torchaudio.save(os.path.join(OUTPUT_DIR, "output.wav"), wav_out[0], sr_out)
         """Run a single prediction on the model"""
 
-        return os.path("output.wav")
+        return os.path(os.path("output.wav"))
